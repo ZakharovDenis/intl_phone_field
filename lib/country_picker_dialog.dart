@@ -63,6 +63,7 @@ class CountryPickerDialog extends StatefulWidget {
 
 class _CountryPickerDialogState extends State<CountryPickerDialog> {
   late List<Country> _filteredCountries;
+  late List<Country> _sortedCountries;
   late Country _selectedCountry;
 
   @override
@@ -74,6 +75,7 @@ class _CountryPickerDialogState extends State<CountryPickerDialog> {
             .localizedName(widget.languageCode)
             .compareTo(b.localizedName(widget.languageCode)),
       );
+    _sortedCountries = _filteredCountries;
 
     super.initState();
   }
@@ -101,11 +103,16 @@ class _CountryPickerDialogState extends State<CountryPickerDialog> {
                 cursorColor: widget.style?.searchFieldCursorColor,
                 decoration: widget.style?.searchFieldInputDecoration ??
                     InputDecoration(
-                      suffixIcon: Icon(Icons.search),
+                      suffixIcon: IconButton(
+                          icon: Icon(Icons.clear),
+                          onPressed: (() {
+                            Navigator.of(context).pop();
+                          })),
                       labelText: widget.searchText,
                     ),
                 onChanged: (value) {
-                  _filteredCountries = widget.countryList.stringSearch(value);
+                  _filteredCountries = _sortedCountries.stringSearch(value,
+                      locale: widget.languageCode);
                   if (this.mounted) setState(() {});
                 },
               ),
@@ -120,7 +127,7 @@ class _CountryPickerDialogState extends State<CountryPickerDialog> {
                     ListTile(
                       leading: Text(
                         _filteredCountries[index].flag,
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 30),
                       ),
                       contentPadding: widget.style?.listTilePadding,
                       title: Text(

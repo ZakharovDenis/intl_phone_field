@@ -3,8 +3,6 @@
 
 // see https://www.geonames.org/ for translations
 
-enum SupportedLocales { en, ar, zh, fr, ge, it, ja, ko, pt, ru, es }
-
 const List<Country> countries = [
   Country(
     name: "Afghanistan",
