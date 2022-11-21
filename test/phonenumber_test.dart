@@ -5,7 +5,6 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-//import 'package:flutter_test/flutter_test.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:test/test.dart';
 import 'package:intl_phone_field/phone_number.dart';
@@ -52,7 +51,8 @@ void main() {
       expect(phoneNumber.countryISOCode, "");
       expect(phoneNumber.countryCode, "");
       expect(phoneNumber.number, "");
-      expect(() => phoneNumber.isValidNumber(),
+      expect(phoneNumber.isValidNumber(), false);
+      expect(() => phoneNumber.checkNumber(),
           throwsA(TypeMatcher<NumberTooShortException>()));
     });
 
@@ -65,18 +65,15 @@ void main() {
       expect(phoneNumber.isValidNumber(), true);
     });
 
-    test('Number is too short number +8521234567', () {
-      PhoneNumber ph =
-          PhoneNumber.fromCompleteNumber(completeNumber: "+8521234567");
-      expect(() => ph.isValidNumber(),
+    test('cannot create from too short number +852123456789', () {
+      expect(
+          () => PhoneNumber.fromCompleteNumber(completeNumber: "+8521234567"),
           throwsA(TypeMatcher<NumberTooShortException>()));
     });
 
     test('cannot create from too long number +852123456789', () {
-      PhoneNumber ph =
-          PhoneNumber.fromCompleteNumber(completeNumber: "+852123456789");
-
-      expect(() => ph.isValidNumber(),
+      expect(
+          () => PhoneNumber.fromCompleteNumber(completeNumber: "+852123456789"),
           throwsA(TypeMatcher<NumberTooLongException>()));
     });
 
