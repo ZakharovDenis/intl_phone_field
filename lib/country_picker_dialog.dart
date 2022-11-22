@@ -42,6 +42,7 @@ class CountryPickerDialog extends StatefulWidget {
   final Country selectedCountry;
   final ValueChanged<Country> onCountryChanged;
   final String searchText;
+  final double flagSize;
   final List<Country> filteredCountries;
   final PickerDialogStyle? style;
   final String languageCode;
@@ -49,6 +50,7 @@ class CountryPickerDialog extends StatefulWidget {
   CountryPickerDialog({
     Key? key,
     required this.searchText,
+    required this.flagSize,
     required this.languageCode,
     required this.countryList,
     required this.onCountryChanged,
@@ -127,7 +129,7 @@ class _CountryPickerDialogState extends State<CountryPickerDialog> {
                     ListTile(
                       leading: Text(
                         _filteredCountries[index].flag,
-                        style: TextStyle(fontSize: 30),
+                        style: TextStyle(fontSize: widget.flagSize),
                       ),
                       contentPadding: widget.style?.listTilePadding,
                       title: Text(

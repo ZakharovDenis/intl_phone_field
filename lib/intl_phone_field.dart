@@ -239,7 +239,17 @@ class IntlPhoneField extends StatefulWidget {
   /// If unset, defaults to [EdgeInsets.zero].
   final EdgeInsets flagsButtonMargin;
 
-  IntlPhoneField({
+  /// Size of the country flag in input field
+  ///
+  /// If unset, defaults to [25]
+  final double inputFlagSize;
+
+  /// Size of the country flag in search modal
+  ///
+  /// If unset, defaults to [25]
+  final double searchFlagSize;
+
+  const IntlPhoneField({
     Key? key,
     this.initialCountryCode,
     this.languageCode = 'en',
@@ -284,6 +294,8 @@ class IntlPhoneField extends StatefulWidget {
     this.showCursor = true,
     this.pickerDialogStyle,
     this.flagsButtonMargin = EdgeInsets.zero,
+    this.inputFlagSize = 25,
+    this.searchFlagSize = 25,
   }) : super(key: key);
 
   @override
@@ -363,6 +375,7 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
           style: widget.pickerDialogStyle,
           filteredCountries: filteredCountries,
           searchText: widget.searchText,
+          flagSize: widget.searchFlagSize,
           countryList: _countryList,
           selectedCountry: _selectedCountry,
           onCountryChanged: (Country country) {
@@ -422,9 +435,7 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
         widget.onChanged?.call(phoneNumber);
       },
       validator: (String? value) {
-        return phoneNumber.isValidNumber()
-            ? null
-            : widget.invalidNumberMessage ?? "";
+        return phoneNumber.isValidNumber() ? null : widget.invalidNumberMessage;
       },
       maxLength: widget.disableLengthCheck ? null : _selectedCountry.maxLength,
       keyboardType: widget.keyboardType,
@@ -459,7 +470,7 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
                 if (widget.showCountryFlag) ...[
                   Text(
                     _selectedCountry.flag,
-                    style: TextStyle(fontSize: 25),
+                    style: TextStyle(fontSize: widget.inputFlagSize),
                   ),
                   SizedBox(width: 8),
                 ],
